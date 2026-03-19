@@ -1,5 +1,7 @@
 package com.felipe.produto.controller;
 
+import com.felipe.produto.dto.request.ProdutoRequestDTO;
+import com.felipe.produto.dto.response.ProdutoResponseDTO;
 import com.felipe.produto.model.Produto;
 import com.felipe.produto.service.ProdutoService;
 import jakarta.validation.Valid;
@@ -17,30 +19,29 @@ public class ProdutoController {
     private ProdutoService produtoService;
 
     @PostMapping
-    public ResponseEntity<Produto> salvar(@Valid @RequestBody Produto produto) {
-        Produto salvo = produtoService.salvar(produto);
-        return ResponseEntity.status(201).body(salvo);
+    public ResponseEntity<ProdutoResponseDTO> salvar(@Valid @RequestBody ProdutoRequestDTO dto) {
+        ProdutoResponseDTO response = produtoService.salvar(dto);
+        return ResponseEntity.status(201).body(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<Produto>> buscarTodos() {
-        List<Produto> produtos = produtoService.listarTodos();
+    public ResponseEntity<List<ProdutoResponseDTO>> buscarTodos() {
+        List<ProdutoResponseDTO> produtos = produtoService.listarTodos();
         return ResponseEntity.ok(produtos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Produto> buscarPorId(@PathVariable("id") Long id) {
-        Produto produto = produtoService.buscarPorId(id);
+    public ResponseEntity<ProdutoResponseDTO> buscarPorId(@PathVariable("id") Long id) {
+        ProdutoResponseDTO produto = produtoService.buscarPorId(id);
         return ResponseEntity.ok(produto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Produto> atualizarPorId(
+    public ResponseEntity<ProdutoResponseDTO> atualizarPorId(
             @PathVariable Long id,
-            @Valid @RequestBody Produto produto) {
-        produto.setId(id);
+            @Valid @RequestBody ProdutoRequestDTO dto) {
 
-        Produto produtoAtualizado = produtoService.atualizar(produto);
+        ProdutoResponseDTO produtoAtualizado = produtoService.atualizar(id, dto);
 
         return ResponseEntity.ok(produtoAtualizado);
     }
