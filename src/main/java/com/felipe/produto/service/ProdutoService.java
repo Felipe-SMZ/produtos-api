@@ -52,7 +52,7 @@ public class ProdutoService {
 
         Produto atualizado = produtoRepository.save(produto);
 
-        return new ProdutoResponseDTO(produto);
+        return new ProdutoResponseDTO(atualizado);
     }
 
     public void deletar(Long id) {
